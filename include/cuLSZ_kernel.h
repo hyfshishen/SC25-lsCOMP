@@ -1,5 +1,25 @@
 #ifndef CULSZ_INCLUDE_CULSZ_KERNEL_H
 #define CULSZ_INCLUDE_CULSZ_KERNEL_H
 
+#include <stdint.h>
+#include <cuda_runtime.h>
+
+static const int block_per_thread = 32;
+
+__global__ void cuLSZ_compression_kernel_uint32_bsize64(const uint32_t* const __restrict__ oriData, 
+                                                        unsigned char* const __restrict__ cmpBytes, 
+                                                        volatile unsigned int* const __restrict__ cmpOffset, 
+                                                        volatile unsigned int* const __restrict__ locOffset,
+                                                        volatile int* const __restrict__ flag,
+                                                        uint blockNum, const uint3 dims, 
+                                                        const uint4 quantBins, const float poolingTH);
+__global__ void cuLSZ_decompression_kernel_uint32_bsize64(uint32_t* const __restrict__ decData, 
+                                                        const unsigned char* const __restrict__ cmpBytes, 
+                                                        volatile unsigned int* const __restrict__ cmpOffset, 
+                                                        volatile unsigned int* const __restrict__ locOffset,
+                                                        volatile int* const __restrict__ flag,
+                                                        uint blockNum, const uint3 dims, 
+                                                        const uint4 quantBins, const float poolingTH);
+
 
 #endif // CULSZ_INCLUDE_CULSZ_KERNEL_H

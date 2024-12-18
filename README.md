@@ -10,3 +10,5 @@ mkdir build && cd build
 cmake ..
 make -j
 ```
+
+The dimension of ```cssi.bin``` is (600, 1813, 1558).
