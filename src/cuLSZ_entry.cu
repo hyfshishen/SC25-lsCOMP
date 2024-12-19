@@ -70,7 +70,6 @@ void cuLSZ_decompression_uint32_bsize64(uint32_t* d_decData, unsigned char* d_cm
     unsigned int* d_cmpOffset;
     unsigned int* d_locOffset;
     int* d_flag;
-    unsigned int glob_sync;
     cudaMalloc((void**)&d_cmpOffset, sizeof(unsigned int)*cmpOffSize);
     cudaMemset(d_cmpOffset, 0, sizeof(unsigned int)*cmpOffSize);
     cudaMalloc((void**)&d_locOffset, sizeof(unsigned int)*cmpOffSize);
@@ -84,4 +83,9 @@ void cuLSZ_decompression_uint32_bsize64(uint32_t* d_decData, unsigned char* d_cm
     cuLSZ_decompression_kernel_uint32_bsize64<<<gridSize, blockSize, sizeof(unsigned int)*2, stream>>>(d_decData, d_cmpBytes, d_cmpOffset, d_locOffset, d_flag, blockNum, dims, quantBins, poolingTH);
     // Check for kernel launch errors
     checkCudaErrors(cudaGetLastError());
+
+    // Free memory that is used.
+    cudaFree(d_cmpOffset);
+    cudaFree(d_locOffset);
+    cudaFree(d_flag);
 }

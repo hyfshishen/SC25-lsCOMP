@@ -142,9 +142,7 @@ int main(int argc, char* argv[])
 
     // Warmup for NVIDIA GPU.
     for(int i=0; i<3; i++) cuLSZ_compression_uint32_bsize64(d_oriData, d_cmpBytes, &cmpSize, dims, quantBins, poolingTH, stream);
-    printf("======================================\n");
-    printf("========== Warmup finished! ==========\n");
-    printf("======================================\n");
+    printf("GPU warmup finished!\n\n");
 
     // cuLSZ compression.
     timer_GPU.StartCounter();
@@ -153,14 +151,41 @@ int main(int argc, char* argv[])
 
     // Transfer compressed data to CPU then back to GPU, making sure compression ratio is correct.
     // No need to add this part for real-world usages, this is only for testing compresion ratio correcness.
+    unsigned char* cmpBytes_dup = (unsigned char*)malloc(cmpSize*sizeof(unsigned char));
+    cudaMemcpy(cmpBytes_dup, d_cmpBytes, cmpSize*sizeof(unsigned char), cudaMemcpyDeviceToHost);
+    cudaMemset(d_cmpBytes, 0, nbEle*sizeof(uint32_t)); // set to zero for double check.
+    cudaMemcpy(d_cmpBytes, cmpBytes_dup, cmpSize*sizeof(unsigned char), cudaMemcpyHostToDevice); // copy back to GPU.
 
-    printf("Input data dimension: %u x %u x %u, total length %zu\n", dims.x, dims.y, dims.z, nbEle);
+    // cuLSZ decompression.
+    timer_GPU.StartCounter();
+    cuLSZ_decompression_uint32_bsize64(d_decData, d_cmpBytes, cmpSize, dims, quantBins, poolingTH, stream);
+    float decTime = timer_GPU.GetCounter();
+
+    // Print results.
+    printf("Dataset information:\n");
+    printf("  - dims:   %u x %u x %u\n", dims.x, dims.y, dims.z);
+    printf("  - length: %zu\n", nbEle);
+    printf("  - size:   %f GB\n", nbEle*sizeof(uint32_t)/1024.0/1024.0/1024.0);
+    printf("Input arguments:\n");
+    printf("  - quantBins: %u %u %u %u\n", quantBins.x, quantBins.y, quantBins.z, quantBins.w);
+    printf("  - poolingTH: %f\n\n", poolingTH);
     printf("cuLSZ compression   end-to-end speed: %f GB/s\n", (nbEle*sizeof(uint32_t)/1024.0/1024.0)/cmpTime);
-    // printf("cuLSZ decompression end-to-end speed: %f GB/s\n", (nbEle*sizeof(uint32_t)/1024.0/1024.0)/decTime);
+    printf("cuLSZ decompression end-to-end speed: %f GB/s\n", (nbEle*sizeof(uint32_t)/1024.0/1024.0)/decTime);
     printf("cuLSZ compression ratio: %f\n", (nbEle*sizeof(uint32_t)/1024.0/1024.0)/(cmpSize*sizeof(unsigned char)/1024.0/1024.0));
+
+    // Write reconstructed data if needed.
+    if(strlen(decFilePath) > 0) {
+        cudaMemcpy(decData, d_decData, nbEle*sizeof(uint32_t), cudaMemcpyDeviceToHost);
+        writeUIntData_inBytes_Yafan(decData, nbEle, decFilePath, &status);
+    }
 
     free(oriData);
     free(decData);
     free(cmpBytes);
+    free(cmpBytes_dup);
+    cudaFree(d_oriData);
+    cudaFree(d_decData);
+    cudaFree(d_cmpBytes);
+    cudaStreamDestroy(stream);
     return 0;
 }
