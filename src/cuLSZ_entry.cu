@@ -15,6 +15,73 @@ void check(cudaError_t result, const char *const func, const char *const file, i
 }
 
 
+void cuSZp_compress_plain_f32(float* d_oriData, unsigned char* d_cmpBytes, size_t nbEle, size_t* cmpSize, float errorBound, cudaStream_t stream)
+{
+    // Data blocking.
+    int bsize = cmp_tblock_size;
+    int gsize = (nbEle + bsize * cmp_chunk - 1) / (bsize * cmp_chunk);
+    int cmpOffSize = gsize + 1;
+
+    // Initializing global memory for GPU compression.
+    unsigned int* d_cmpOffset;
+    unsigned int* d_locOffset;
+    int* d_flag;
+    unsigned int glob_sync;
+    cudaMalloc((void**)&d_cmpOffset, sizeof(unsigned int)*cmpOffSize);
+    cudaMemset(d_cmpOffset, 0, sizeof(unsigned int)*cmpOffSize);
+    cudaMalloc((void**)&d_locOffset, sizeof(unsigned int)*cmpOffSize);
+    cudaMemset(d_locOffset, 0, sizeof(unsigned int)*cmpOffSize);
+    cudaMalloc((void**)&d_flag, sizeof(int)*cmpOffSize);
+    cudaMemset(d_flag, 0, sizeof(int)*cmpOffSize);
+
+    // cuSZp GPU compression.
+    dim3 blockSize(bsize);
+    dim3 gridSize(gsize);
+    cuSZp_compress_kernel_plain_f32<<<gridSize, blockSize, sizeof(unsigned int)*2, stream>>>(d_oriData, d_cmpBytes, d_cmpOffset, d_locOffset, d_flag, errorBound, nbEle);
+    checkCudaErrors(cudaGetLastError());
+
+    // Obtain compression ratio and move data back to CPU.  
+    cudaMemcpy(&glob_sync, d_cmpOffset+cmpOffSize-1, sizeof(unsigned int), cudaMemcpyDeviceToHost);
+    *cmpSize = (size_t)glob_sync + (nbEle+cmp_tblock_size*cmp_chunk-1)/(cmp_tblock_size*cmp_chunk)*(cmp_tblock_size*cmp_chunk)/32;
+
+    // Free memory that is used.
+    cudaFree(d_cmpOffset);
+    cudaFree(d_locOffset);
+    cudaFree(d_flag);
+}
+
+
+void cuSZp_decompress_plain_f32(float* d_decData, unsigned char* d_cmpBytes, size_t nbEle, size_t cmpSize, float errorBound, cudaStream_t stream)
+{
+    // Data blocking.
+    int bsize = dec_tblock_size;
+    int gsize = (nbEle + bsize * dec_chunk - 1) / (bsize * dec_chunk);
+    int cmpOffSize = gsize + 1;
+
+    // Initializing global memory for GPU decompression.
+    unsigned int* d_cmpOffset;
+    unsigned int* d_locOffset;
+    int* d_flag;
+    cudaMalloc((void**)&d_cmpOffset, sizeof(unsigned int)*cmpOffSize);
+    cudaMemset(d_cmpOffset, 0, sizeof(unsigned int)*cmpOffSize);
+    cudaMalloc((void**)&d_locOffset, sizeof(unsigned int)*cmpOffSize);
+    cudaMemset(d_locOffset, 0, sizeof(unsigned int)*cmpOffSize);
+    cudaMalloc((void**)&d_flag, sizeof(int)*cmpOffSize);
+    cudaMemset(d_flag, 0, sizeof(int)*cmpOffSize);
+
+    // cuSZp GPU decompression.
+    dim3 blockSize(bsize);
+    dim3 gridSize(gsize);
+    cuSZp_decompress_kernel_plain_f32<<<gridSize, blockSize, sizeof(unsigned int)*2, stream>>>(d_decData, d_cmpBytes, d_cmpOffset, d_locOffset, d_flag, errorBound, nbEle);
+    checkCudaErrors(cudaGetLastError());
+
+    // Free memory that is used.
+    cudaFree(d_cmpOffset);
+    cudaFree(d_locOffset);
+    cudaFree(d_flag);
+}
+
+
 void cuLSZ_compression_uint32_bsize64(uint32_t* d_oriData, unsigned char* d_cmpBytes, size_t* cmpSize, uint3 dims, uint4 quantBins, float poolingTH, cudaStream_t stream)
 {
     // Data blocking.

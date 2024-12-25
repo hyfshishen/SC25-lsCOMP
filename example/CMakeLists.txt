@@ -2,8 +2,10 @@
 find_package(CUDA REQUIRED)
 
 set(install_dir ${PROJECT_BINARY_DIR})
-set(cuLSZ_cssi "cuLSZ_cssi")
-set(cuLSZ_xpcs "cuLSZ_xpcs")
+set(xpcs_conversion "xpcs_conversion")
+set(cssi_conversion "cssi_conversion")
+set(xpcs_truncation "xpcs_truncation")
+set(xpcs_truncation "cssi_truncation")
 set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
@@ -17,17 +19,25 @@ cuda_add_library(cuLSZ_libs STATIC ${SRC_DIR}/cuLSZ_kernel.cu
                                    ${SRC_DIR}/cuLSZ_entry.cu)
 
 # Compile executable binary
-cuda_add_executable(${cuLSZ_cssi} cuLSZ_cssi.cpp)
-cuda_add_executable(${cuLSZ_xpcs} cuLSZ_xpcs.cpp)
+cuda_add_executable(${xpcs_conversion} xpcs_conversion.cpp)
+cuda_add_executable(${cssi_conversion} cssi_conversion.cpp)
+cuda_add_executable(${xpcs_truncation} xpcs_truncation.cpp)
+cuda_add_executable(${cssi_truncation} cssi_truncation.cpp)
 
 # Link with headers
-target_link_libraries(${cuLSZ_cssi} cuLSZ_libs)
-target_link_libraries(${cuLSZ_xpcs} cuLSZ_libs)
+target_link_libraries(${xpcs_conversion} cuLSZ_libs)
+target_link_libraries(${cssi_conversion} cuLSZ_libs)
+target_link_libraries(${xpcs_truncation} cuLSZ_libs)
+target_link_libraries(${cssi_truncation} cuLSZ_libs)
 
 # Set output paths for the compiled binary
-set_target_properties(${cuLSZ_cssi} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${install_dir})
-set_target_properties(${cuLSZ_xpcs} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${install_dir})
+set_target_properties(${xpcs_conversion} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${install_dir})
+set_target_properties(${cssi_conversion} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${install_dir})
+set_target_properties(${xpcs_truncation} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${install_dir})
+set_target_properties(${cssi_truncation} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${install_dir})
 
 # Set installation paths for the compiled binary.
-install(TARGETS ${cuLSZ_cssi} DESTINATION bin)
-install(TARGETS ${cuLSZ_xpcs} DESTINATION bin)
+install(TARGETS ${xpcs_conversion} DESTINATION bin)
+install(TARGETS ${cssi_conversion} DESTINATION bin)
+install(TARGETS ${xpcs_truncation} DESTINATION bin)
+install(TARGETS ${cssi_truncation} DESTINATION bin)
