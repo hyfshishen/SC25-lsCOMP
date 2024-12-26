@@ -5,7 +5,7 @@ set(install_dir ${PROJECT_BINARY_DIR})
 set(xpcs_conversion "xpcs_conversion")
 set(cssi_conversion "cssi_conversion")
 set(xpcs_truncation "xpcs_truncation")
-set(xpcs_truncation "cssi_truncation")
+set(cssi_truncation "cssi_truncation")
 set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 

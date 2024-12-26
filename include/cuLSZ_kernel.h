@@ -13,9 +13,16 @@ static const int dec_tblock_size = 32; // Fixed to 32, cannot be modified.
 static const int cmp_chunk = 1024;
 static const int dec_chunk = 1024;
 
-// cuSZp functions
+// cuSZp-based function, used for conversion methods.
 __global__ void cuSZp_compress_kernel_plain_f32(const float* const __restrict__ oriData, unsigned char* const __restrict__ cmpData, volatile unsigned int* const __restrict__ cmpOffset, volatile unsigned int* const __restrict__ locOffset, volatile int* const __restrict__ flag, const float eb, const size_t nbEle);
 __global__ void cuSZp_decompress_kernel_plain_f32(float* const __restrict__ decData, const unsigned char* const __restrict__ cmpData, volatile unsigned int* const __restrict__ cmpOffset, volatile unsigned int* const __restrict__ locOffset, volatile int* const __restrict__ flag, const float eb, const size_t nbEle);
+
+// cuSZp-based function, used for truncation methods.
+__global__ void cuSZp_compress_kernel_plain_f32_truncation_cssi(const uint32_t* const __restrict__ oriData, unsigned char* const __restrict__ cmpData, volatile unsigned int* const __restrict__ cmpOffset, volatile unsigned int* const __restrict__ locOffset, volatile int* const __restrict__ flag, const uint threshold, const size_t nbEle);
+__global__ void cuSZp_decompress_kernel_plain_f32_truncation_cssi(uint32_t* const __restrict__ decData, const unsigned char* const __restrict__ cmpData, volatile unsigned int* const __restrict__ cmpOffset, volatile unsigned int* const __restrict__ locOffset, volatile int* const __restrict__ flag, const uint threshold, const size_t nbEle);
+__global__ void cuSZp_compress_kernel_plain_f32_truncation_xpcs(const uint16_t* const __restrict__ oriData, unsigned char* const __restrict__ cmpData, volatile unsigned int* const __restrict__ cmpOffset, volatile unsigned int* const __restrict__ locOffset, volatile int* const __restrict__ flag, const uint threshold, const size_t nbEle);
+__global__ void cuSZp_decompress_kernel_plain_f32_truncation_xpcs(uint16_t* const __restrict__ decData, const unsigned char* const __restrict__ cmpData, volatile unsigned int* const __restrict__ cmpOffset, volatile unsigned int* const __restrict__ locOffset, volatile int* const __restrict__ flag, const uint threshold, const size_t nbEle);
+
 
 // cuLSZ functions.
 __global__ void cuLSZ_compression_kernel_uint32_bsize64(const uint32_t* const __restrict__ oriData, 
