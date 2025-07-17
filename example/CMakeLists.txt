@@ -2,8 +2,8 @@
 find_package(CUDA REQUIRED)
 
 set(install_dir ${PROJECT_BINARY_DIR})
-set(cuLSZ_cssi "cuLSZ_cssi")
-set(cuLSZ_xpcs "cuLSZ_xpcs")
+set(cuLSZ_cssi "lsCOMP_uint32")
+set(cuLSZ_xpcs "lsCOMP_uint16")
 set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
