@@ -230,17 +230,108 @@ Compression ratios should be the same with what are reported in Figure 10.
 
 ### 3.7 Figure 12: Data Transfer Time Simulation
 
+Following command can reproduce results for this step.
+
+```shell
+$ python3 1-reproducing-main-3-7.py 
+Transfering 100 GB CSSI dataset with lsCOMP
+[6.371629851194527, 3.279780084669378, 1.7338552014068032, 0.9608927597755159, 0.5744115389598723, 0.3811709285520505]
+
+Transfering 100 GB XPCS dataset with lsCOMP
+[14.55063301751676, 7.406890050531711, 3.835018567039187, 2.0490828252929245, 1.1561149544197935, 0.7096310189832279]
+```
+
+Results should match or close to what are reported in Figure 12.
+Note that throughput may vary due to several factors; reviewers can re-run this script to obtain consistent results.
+
 ### 3.8 (Optional) Figure 13: lsCOMP Throughput on Other Light Source Datasets
+
+Following commands can reproduce results for this step.
+
+```shell
+$ python3 2-reproducing-optional-3-8.py 
+lsCOMP for SFC-L, lossless
+Compression throughput: 275.452773 GB/s
+Decompression throughput: 223.69353 GB/s
+lsCOMP for SPDI-M, lossless
+Compression throughput: 158.546425 GB/s
+Decompression throughput: 228.54534 GB/s
+lsCOMP for SFC-GI, lossless
+Compression throughput: 260.337711 GB/s
+Decompression throughput: 236.14885 GB/s
+lsCOMP for PCG-GB, lossless
+Compression throughput: 132.06926 GB/s
+Decompression throughput: 142.755747 GB/s
+```
+
+Results should match or close to what are reported in Figure 13.
+Note that throughput may vary due to several factors; reviewers can re-run this script to obtain consistent results.
 
 ### 3.9 (Optional) Table 5: lsCOMP Compression Ratios on Other Light Source Datasets
 
+Following command can reproduce results for this step.
+
+```shell
+$ python3 2-reproducing-optional-3-9.py 
+lsCOMP for SFC-L, lossless
+Compression ratio: 2.813516
+lsCOMP for SPDI-M, lossless
+Compression ratio: 3.136697
+lsCOMP for SFC-GI, lossless
+Compression ratio: 2.0273775
+lsCOMP for PCG-GB, lossless
+Compression ratio: 1.677282
+```
+
+Compression ratios should be the same with what are reported in Table 3.
+
+
 ### 3.10 (Optional) Figure 15: lsCOMP Throughput on Other Domain Datasets
+
+Before 3.10 and 3.11, reviewer can execute following commands to download other domain datasets (from scientific visualization dataset benchmarks).
+
+```shell
+$ python3 3-downloading-open-vis-datasets.py
+```
+
+The datasets will be downloaded using ```wget``` from direct link access and moved to ```datasets/``` folder.
+
+Reviewer can execute following command.
+
+```shell
+$ python3 2-reproducing-optional-3-10.py 
+lsCOMP for Chameleon, lossless
+Compression throughput: 192.621602 GB/s
+Decompression throughput: 217.858593 GB/s
+lsCOMP for P. Campbelli, lossless
+Compression throughput: 121.569142 GB/s
+Decompression throughput: 168.247825 GB/s
+lsCOMP for S. Fossorium, lossless
+Compression throughput: 136.751114 GB/s
+Decompression throughput: 166.845814 GB/s
+```
+
+Results should match or close to what are reported in Figure 15.
+Note that throughput may vary due to several factors; reviewers can re-run this script to obtain consistent results.
+
 
 ### 3.11 (Optional) Table 7: lsCOMP Compression Ratios on Other Domain Datasets
 
+The datasets downloading scripts can be found in Section 3.10. If you have downloaded datasets, please proceed to execution command.
 
+To reproduce compression ratio results, you can execute following commands.
 
+```shell
+$ python3 2-reproducing-optional-3-11.py 
+lsCOMP for Chameleon, lossless
+Compression ratio: 1.491409
+lsCOMP for P. Campbelli, lossless
+Compression ratio: 1.103493
+lsCOMP for S. Fossorium, lossless
+Compression ratio: 1.458722
+```
 
+Compression ratios should be the same with what are reported in Table 7.
 
 
 
