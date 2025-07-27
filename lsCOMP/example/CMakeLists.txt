@@ -2,8 +2,8 @@
 find_package(CUDA REQUIRED)
 
 set(install_dir ${PROJECT_BINARY_DIR})
-set(cuLSZ_cssi "cuLSZ_cssi")
-set(cuLSZ_xpcs "cuLSZ_xpcs")
+set(cuLSZ_cssi "lsCOMP_cssi")
+set(cuLSZ_xpcs "lsCOMP_xpcs")
 set(SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
@@ -17,8 +17,8 @@ cuda_add_library(cuLSZ_libs STATIC ${SRC_DIR}/cuLSZ_kernel.cu
                                    ${SRC_DIR}/cuLSZ_entry.cu)
 
 # Compile executable binary
-cuda_add_executable(${cuLSZ_cssi} cuLSZ_cssi.cpp)
-cuda_add_executable(${cuLSZ_xpcs} cuLSZ_xpcs.cpp)
+cuda_add_executable(${cuLSZ_cssi} lsCOMP_cssi.cpp)
+cuda_add_executable(${cuLSZ_xpcs} lsCOMP_xpcs.cpp)
 
 # Link with headers
 target_link_libraries(${cuLSZ_cssi} cuLSZ_libs)
