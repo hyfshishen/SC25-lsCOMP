@@ -29,10 +29,10 @@ lsCOMP can be installed by following commands.
 
 ```shell
 # First, git clone this repository.
-$ git clone https://github.com/hyfshishen/lsCOMP.git
+$ git clone https://github.com/hyfshishen/SC25-lsCOMP.git
 
 # Then, change directory to this repository.
-$ cd lsCOMP
+$ cd SC25-lsCOMP
 
 # Finally, compile lsCOMP via a Python script.
 $ python3 0-compile-lsCOMP.py
