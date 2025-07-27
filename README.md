@@ -58,9 +58,10 @@ Examples:
 ### 2.3 Setting Up Light Source Datasets
 
 All light source datasets can be downloaded through a publically available [ANL BOX Link](https://anl.box.com/s/25q3jjm40ppdgf4173auc1fyuback2zl).
-Please note that direct download via ```wget``` is not supported, as this feature is restricted in ANL’s Box instance. We apologize for any inconvenience this may cause.
+Please note that direct download via ```wget``` is not supported, as this feature is restricted in ANL Box's instance. 
+We apologize for any inconvenience this may cause.
 To proceed, please create a folder named ```datasets``` in your local repository and manually place all downloaded datasets inside it.
-After this step, your repository should have the following structure:
+After this step, your local repository should have the following structure:
 ```shell
 -- lsCOMP
     -- CMakeLists.txt
@@ -89,25 +90,51 @@ After this step, your repository should have the following structure:
 
 ## 3. Reproducing Paper Results
 
-Mention which part is major results, and which parts are not.
+This section provides instructions on reproducing paper results.
+Note that 3.1-3.7 are key results of this work (as main evaluation).
+Other subsections are results for discussion sections, which are optional.
+In each subsection, we provide a Python script to simpliy the execution.
+Since lsCOMP is a GPU compressor targeting both throughputs and compression ratios, execution scripts for each Figure/Table only take several seconds.
 
-### Figure
-
-
-
-
-
-
+### 3.1 Figure 7: Throughput of lsCOMP Lossless Compression
 
 
 
+### 3.2 Figure 8: Throughput of lsCOMP Lossy Compression
+
+
+### 3.3 Figure 9: Throughput of Different lsCOMP Lossy Settings
+
+### 3.4 Table 2: Compression Ratios of lsCOMP Lossless Compression
+
+### 3.5 Table 3: Compression Ratios of lsCOMP Lossy Compression
+
+### 3.6 Figure 10: Compression Ratios of Different lsCOMP Lossy Settings
+
+### 3.7 Figure 12: Data Transfer Time Simulation
+
+### 3.8 Figure 13: lsCOMP Throughput on Other Light Source Datasets
+
+### 3.9 Table 5: lsCOMP Compression Ratios on Other Light Source Datasets
+
+### 3.10 Figure 15: lsCOMP Throughput on Other Domain Datasets
+
+### 3.11 Table 7: lsCOMP Compression Ratios on Other Domain Datasets
 
 
 
 
 
 
-## Requirements
+
+
+
+
+
+
+
+
+<!-- ## Requirements
 - CMake > 3.21
 - CUDA > 11.0
 
@@ -118,4 +145,4 @@ cmake ..
 make -j
 ```
 
-The dimension of ```cssi.bin``` is (600, 1813, 1558).
+The dimension of ```cssi.bin``` is (600, 1813, 1558). -->
