@@ -9,7 +9,7 @@ set(namespace "cuLSZ")
 enable_language(CXX)
 enable_language(CUDA)
 
-find_package(CUDAToolkit REQUIRED)
+# find_package(CUDAToolkit REQUIRED)
 
 # Set C++ and CUDA standards
 set(CMAKE_CXX_STANDARD 17)
@@ -57,7 +57,7 @@ target_include_directories(${PROJECT_NAME}
 
 #target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE CUDA::cudart)
+# target_link_libraries(${PROJECT_NAME} PRIVATE CUDA::cudart)
 
 set(public_headers
         include/cuLSZ_kernel.h
