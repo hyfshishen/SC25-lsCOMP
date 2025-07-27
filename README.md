@@ -29,10 +29,10 @@ lsCOMP can be installed by following commands.
 
 ```shell
 # First, git clone this repository.
-$ git clone https://github.com/hyfshishen/cuLSZ.git
+$ git clone https://github.com/hyfshishen/lsCOMP.git
 
 # Then, change directory to this repository.
-$ cd cuLSZ
+$ cd lsCOMP
 
 # Finally, compile lsCOMP via a Python script.
 $ python3 0-compile-lsCOMP.py
