@@ -19,19 +19,92 @@ Following software/hardware dependencies are neccessary to compile and execute l
 - A Linux Machine (we use Ubuntu 20.04, but other OSs should also be good)
 - Git 2.15 or newer
 - CMake 3.21 or newer
-- CUDA 11.2 or newer
+- CUDA 11.0 or newer
 - One NVIDIA A100 GPU (either 40 GB or 80 GB video memory works)
 - Python 3 (this is for executing the wrapped up scripts)
 
 ### 2.2 Compiling lsCOMP into Executable Binaries
 
+lsCOMP can be installed by following commands.
 
+```shell
+# First, git clone this repository.
+$ git clone https://github.com/hyfshishen/cuLSZ.git
+
+# Then, change directory to this repository.
+$ cd cuLSZ
+
+# Finally, compile lsCOMP via a Python script.
+$ python3 0-compile-lsCOMP.py
+```
+
+After compilation, you will see two executable binaries ```lsCOMP_cssi``` and ```lsCOMP_xpcs``` in folder ```./lsCOMP/build/```.
+To check whether installation is succesfull, you can execute ```./lsCOMP_cssi```. If you see results like below code block, then your installation is succesful and please feel free to go to the next step.
+```shell
+$ ./lsCOMP_cssi 
+Usage:
+   ./lsCOMP_cssi -i oriFilePath -d dims.x dims.y dims.z -b quantBins.x quantBins.y quantBins.z quantBins.w -p value -o decFilePath
+Options:
+   -i oriFilePath: Path to the original data file
+   -d dims.x dims.y dims.z: Dimensions of the original data, where dim.z is the fastest dimension.
+   -b quantBins.x quantBins.y quantBins.z quantBins.w: Quantization bins for the 4 levels, where x is the base one and x<=y<=z<=w.
+   -p value: Pooling threshold for a data block.
+   -o decFilePath: Path to the decompressed data file (optional).
+Examples:
+   ./lsCOMP_cssi -i data/cssi.bin -d 600 1813 1558 -b 3 5 10 15 -p 0.5
+   ./lsCOMP_cssi -i data/cssi.bin -d 600 1813 1558 -b 3 5 10 15 -p 0.5 -o data/cssi-dec.bin
+```
 
 ### 2.3 Setting Up Light Source Datasets
 
+All light source datasets can be downloaded through a publically available [ANL BOX Link](https://anl.box.com/s/25q3jjm40ppdgf4173auc1fyuback2zl).
+Please note that direct download via ```wget``` is not supported, as this feature is restricted in ANL’s Box instance. We apologize for any inconvenience this may cause.
+To proceed, please create a folder named ```datasets``` in your local repository and manually place all downloaded datasets inside it.
+After this step, your repository should have the following structure:
+```shell
+-- lsCOMP
+    -- CMakeLists.txt
+    -- build/
+    -- example/
+    -- include/
+    -- src/
+-- datasets
+    -- 0-sfc.uint16         # only used in Section 6.1
+    -- 1-spdi-m.uint16      # only used in Section 6.1
+    -- 2-sfc-1.uint16       # only used in Section 6.1
+    -- 2-sfc-2.uint16       # only used in Section 6.1
+    -- 3-pcg.uint16         # only used in Section 6.1
+    -- cssi-600.bin         # used in main evaluation 
+    -- cssi-128.bin         # used in main evaluation
+    -- xpcs-512-1.bin       # used in main evaluation
+    -- xpcs-512-2.bin       # used in main evaluation
+    -- xpcs-512-3.bin       # used in main evaluation
+    -- xpcs-512-4.bin       # used in main evaluation
+    -- xpcs-512-5.bin       # used in main evaluation
+    -- xpcs-512-6.bin       # used in main evaluation
+-- README.md
+-- 0-compile-lsCOMP.py
+-- # ... (other Python scripts)
+```
+
 ## 3. Reproducing Paper Results
 
+Mention which part is major results, and which parts are not.
+
 ### Figure
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Requirements
