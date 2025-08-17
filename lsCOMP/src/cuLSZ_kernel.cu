@@ -21,6 +21,12 @@ __global__ void cuLSZ_compression_kernel_uint32_bsize64(const uint32_t* const __
     const uint dimyBlock = (dims.y + 7) / 8; // 8x8 blocks.
     const uint dimzBlock = (dims.z + 7) / 8; // 8x8 blocks, fastest dim.
 
+    if(!tid) {
+        excl_sum = 0;
+        base_idx = 0;
+    }
+    __syncthreads();
+
     uint base_start_block_idx;
     uint block_idx;
     uint block_idx_x, block_idx_y, block_idx_z; // .z is the fastest dim.
@@ -474,6 +480,12 @@ __global__ void cuLSZ_decompression_kernel_uint32_bsize64(uint32_t* const __rest
     const uint dimyBlock = (dims.y + 7) / 8; // 8x8 blocks.
     const uint dimzBlock = (dims.z + 7) / 8; // 8x8 blocks, fastest dim.
 
+    if(!tid) {
+        excl_sum = 0;
+        base_idx = 0;
+    }
+    __syncthreads();
+
     uint base_start_block_idx;
     uint block_idx;
     uint block_idx_x, block_idx_y, block_idx_z; // .z is the fastest dim.
@@ -831,6 +843,12 @@ __global__ void cuLSZ_compression_kernel_uint16_bsize64(const uint16_t* const __
     const uint rate_ofs = (blockNum + 3) / 4 * 4;
     const uint dimyBlock = (dims.y + 7) / 8; // 8x8 blocks.
     const uint dimzBlock = (dims.z + 7) / 8; // 8x8 blocks, fastest dim.
+
+    if(!tid) {
+        excl_sum = 0;
+        base_idx = 0;
+    }
+    __syncthreads();
 
     uint base_start_block_idx;
     uint block_idx;
@@ -1284,6 +1302,12 @@ __global__ void cuLSZ_decompression_kernel_uint16_bsize64(uint16_t* const __rest
     const uint rate_ofs = (blockNum + 3) / 4 * 4;
     const uint dimyBlock = (dims.y + 7) / 8; // 8x8 blocks.
     const uint dimzBlock = (dims.z + 7) / 8; // 8x8 blocks, fastest dim.
+
+    if(!tid) {
+        excl_sum = 0;
+        base_idx = 0;
+    }
+    __syncthreads();
 
     uint base_start_block_idx;
     uint block_idx;
