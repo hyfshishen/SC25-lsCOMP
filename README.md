@@ -21,7 +21,7 @@ Following software/hardware dependencies are neccessary to compile and execute l
 - CMake 3.21 or newer
 - CUDA 11.0 or newer
 - One NVIDIA A100 GPU (either 40 GB or 80 GB video memory works)
-- Python 3 (this is for executing the wrapped up scripts)
+- Python 3.7 or higher (this is for executing the wrapped up scripts)
 
 ### 2.2 Compiling lsCOMP into Executable Binaries
 
