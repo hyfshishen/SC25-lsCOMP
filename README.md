@@ -43,8 +43,31 @@ So in later steps, we assume we are already in ```~/``` path inside this contain
 
 To make sure light source datasets can be executed with lsCOMP and nvCOMP command line interfaces, we need to extract it from the original HDF5 files and save it as binary format.
 
-Taking xx as an example.
+Taking ```D0131_US-Cup2_a0010_f005000_r00001.h5``` as an example, this is the time-series XPCS light source dataset with dimension (5000, 2162, 2068).
+We can use following command to extract it.
+```python
+import h5py
+import numpy as np
 
+data_path = "D0131_US-Cup2_a0010_f005000_r00001.h5"
+hf = h5py.File(data_path, 'r')
+raw = np.array(hf['entry/data/data'][:])
+
+# Settings
+output_prefix = "frame"
+slices_per_file = 500
+dtype = np.uint32
+
+# Write 500-slice chunks to separate binary files
+num_files = raw.shape[0] // slices_per_file  # 10 files
+
+for i in range(num_files):
+    chunk = raw[i * slices_per_file : (i + 1) * slices_per_file]
+    chunk.tofile(f"{output_prefix}_{i:02d}.bin")
+
+print(f"Saved {num_files} binary files with {slices_per_file} slices each.")
+```
+Then you split it into a set of binary files with 500 slices in each. Such binary dataset can be used to be compressed using lsCOMP and nvCOMP command line interfaces.
 
 ### Using lsCOMP
 
