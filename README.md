@@ -1,5 +1,7 @@
 # lsCOMP
 
+**This branch is deprecated. An updated image/conatiner usages can be found in the container branch from szcompressor/lscomp repository.**
+
 This branch contains instructions to setup Podman or Docker container for running lsCOMP compressor.
 The original image is created using Docker environments and is compatible with Podman as well.
 The prepared image is uploaded in Dockerhub with [link](https://hub.docker.com/repository/docker/hyfshishen/lscomp/general).
